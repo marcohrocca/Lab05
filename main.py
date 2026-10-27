@@ -37,6 +37,13 @@ def main(page: ft.Page):
 
     # Tutti i TextField per le info necessarie per aggiungere un nuovo strumento (tipo, marca, anno, contatore posti)
     # TODO
+    # Inizio aggiungendo visualizzazione testuale
+    input_tipo = ft.TextField("Tipo")
+    input_marca = ft.TextField("Marca")
+    input_anno_acquisto = ft.TextField("Anno acquisto")
+    # ok adesso dobbiamo mettere il contatore affianco sempre nella loro riga
+    # Qui leggo numerino che poi potrò modificare con meno e più
+    txtOut = ft.TextField("0")
 
     # --- FUNZIONI APP ---
     def aggiorna_lista_strumenti():
@@ -55,14 +62,28 @@ def main(page: ft.Page):
         txt_responsabile.value = f"Responsabile: {deposito.get_responsabile()}"
 
     # Handlers per la gestione dei pulsanti utili all'inserimento di un nuovo strumento
-    # TODO
+    #Qui metto funzioni che si attivano per evento e ovvero il click di pulsante "-" e "+"
+    def handleRemove(e):
+        currentVal=txtOut.value
+        txtOut.value=currentVal-1
+        txtOut.update()
+
+    def handleAdd(e):
+        currentVal=txtOut.value
+        txtOut.value=currentVal+1
+        txtOut.update()
+
+
+
 
     # --- EVENTI ---
     toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=cambia_tema)
     pulsante_conferma_responsabile = ft.Button("Conferma", on_click=conferma_responsabile)
 
     # Pulsanti per la gestione dell'inserimento di un nuovo strumento
-    # TODO
+    # scriviamo interfaccia grafica dei due bottini uno un meno uno un +
+    button_minus = ft.IconButton(icon=ft.Icons.REMOVE, icon_color="red", icon_size=16, on_click=handleRemove)
+    button_add = ft.IconButton(icon=ft.Icons.ADD, icon_color="green", icon_size="16", on_click=handleAdd)
 
     # --- LAYOUT ---
     page.add(
@@ -78,9 +99,19 @@ def main(page: ft.Page):
         ft.Row(spacing=200,
                controls=[input_responsabile, pulsante_conferma_responsabile],
                alignment=ft.MainAxisAlignment.CENTER),
+        ft.Divider(), #Metto divider per fare spazio
 
         # Sezione 3
-        # TODO
+        # Inizia aggiungendo intestazione centrata
+        # Metto intestazione ft che non riceve niente come input
+        ft.Text("Aggiungi nuovo strumento", size=20),
+        ft.Row(
+            controls=[input_tipo, input_marca, input_anno_acquisto,
+                      button_minus, txtOut, button_add],
+            alignment=ft.MainAxisAlignment.CENTER,
+        ),
+
+
 
         # Sezione 4
         ft.Divider(),
